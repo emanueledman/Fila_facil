@@ -1,32 +1,11 @@
-from flask import Blueprint, jsonify, request
+# app/routes.py
+from flask import jsonify
 
-api_bp = Blueprint('api', __name__)
+def init_routes(app):
+    @app.route('/api/status', methods=['GET'])
+    def status():
+        return jsonify({'message': 'API do Facilita 2.0 está funcionando!'})
 
-# Dados de exemplo (simulando um banco de dados)
-dados = [
-    {"id": 1, "nome": "Item 1", "descricao": "Descrição do Item 1"},
-    {"id": 2, "nome": "Item 2", "descricao": "Descrição do Item 2"}
-]
-
-# Endpoint para listar todos os itens
-@api_bp.route('/itens', methods=['GET'])
-def listar_itens():
-    return jsonify(dados)
-
-# Endpoint para obter um item específico
-@api_bp.route('/itens/<int:id>', methods=['GET'])
-def obter_item(id):
-    item = next((item for item in dados if item['id'] == id), None)
-    if item:
-        return jsonify(item)
-    return jsonify({"erro": "Item não encontrado"}), 404
-
-# Endpoint para criar um novo item
-@api_bp.route('/itens', methods=['POST'])
-def criar_item():
-    novo_item = request.get_json()
-    if not novo_item or 'nome' not in novo_item or 'descricao' not in novo_item:
-        return jsonify({"erro": "Dados inválidos"}), 400
-    novo_item['id'] = len(dados) + 1
-    dados.append(novo_item)
-    return jsonify(novo_item), 201
+    @app.route('/', methods=['GET'])
+    def home():
+        return jsonify({'message': 'Bem-vindo à API do Facilita 2.0! Use /api/status para verificar o status ou /api/queues para listar filas.'})
