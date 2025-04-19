@@ -84,7 +84,7 @@ def create_app():
         from .models import Institution, Queue, User, Ticket, Department
 
         # Reiniciar o banco de dados
-        #db.drop_all()
+        db.drop_all()
         db.create_all()
         app.logger.info("Banco limpo e tabelas recriadas")
 
