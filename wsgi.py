@@ -1,6 +1,6 @@
 # wsgi.py
 import os
-from ini import create_app
+from app import create_app
 
 # Criar a aplicação Flask
 app, _ = create_app()
