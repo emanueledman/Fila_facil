@@ -1,1 +1,1 @@
-web: gunicorn --worker-class eventlet -w 1 --timeout 120 --keep-alive 65 wsgi:app
+web: gunicorn --bind 0.0.0.0:5000 wsgi:application
