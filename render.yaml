@@ -1,11 +1,14 @@
+# render.yaml
 services:
   - type: web
-    name: facilita-api
+    name: fila-online
     env: python
-    plan: free
-    region: oregon
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --worker-class eventlet -w 1 --timeout 120 --keep-alive 65 wsgi:app
+    plan: free # Ou outro plano, como "starter" ou "pro"
+    region: frankfurt # Mesma região do banco de dados e Redis
+    buildCommand: |
+      pip install -r requirements.txt
+    startCommand: |
+      gunicorn --worker-class eventlet -w 1 wsgi:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
@@ -13,26 +16,27 @@ services:
         value: production
       - key: DATABASE_URL
         fromDatabase:
-          name: fila_online_db
+          name: fila_online_g9tm
           property: connectionString
-      - key: JWT_SECRET_KEY
-        generateValue: true
-      - key: SECRET_KEY
-        generateValue: true
       - key: REDIS_URL
         fromService:
+          name: redis-fila-online
           type: redis
-          name: facilita-redis
           property: connectionString
+      - key: JWT_SECRET_KEY
+        value: 1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0
+      - key: SECRET_KEY
+        value: 1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0
+      - key: FIREBASE_CREDENTIALS_PATH
+        value: /app/firebase-credentials.json
 
   - type: redis
-    name: facilita-redis
-    ipAllowList:
-      - source: 0.0.0.0/0
-        description: everywhere
-    plan: free
+    name: redis-fila-online
+    region: frankfurt
+    plan: free # Ou outro plano
+    maxmemoryPolicy: volatile-lru
 
 databases:
-  - name: fila_online_db
-    plan: free
+  - name: fila_online_g9tm
     region: frankfurt
+    plan: free # Ou outro plano

@@ -1,1 +1,2 @@
-web: gunicorn --worker-class eventlet --workers 1 --bind 0.0.0.0:$PORT --timeout 120 --keep-alive 65 --log-level info --access-logfile - --error-logfile - wsgi:application
+# Procfile
+web: gunicorn --worker-class eventlet -w 1 wsgi:app
