@@ -88,14 +88,7 @@ def create_app():
         db.create_all()
         app.logger.info("Banco limpo e tabelas recriadas")
 
-        # Inserir dados iniciais
-        try:
-            from .data_init import populate_initial_data
-            populate_initial_data(app)
-            app.logger.info("Dados iniciais inseridos")
-        except Exception as e:
-            app.logger.error(f"Erro ao inserir dados iniciais: {e}")
-            raise
+
 
         # Inicializar modelos de ML
         try:
