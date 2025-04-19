@@ -41,7 +41,7 @@ if __name__ == "__main__":
     
     # Configure host and port
     host = os.getenv('HOST', '0.0.0.0')
-    port = int(os.getenv('PORT', 5000))
+    port = int(os.getenv('PORT', 10000))
     debug = os.getenv('FLASK_ENV') != 'production'
     
     logger.info(f"Iniciando servidor Flask-SocketIO em {host}:{port} (debug={debug})")
